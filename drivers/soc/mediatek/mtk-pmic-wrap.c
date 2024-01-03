@@ -2284,7 +2284,7 @@ static const struct pmic_wrapper_type pwrap_mt6765 = {
 	.int_en_all = 0xffffffff,
 	.spi_w = PWRAP_MAN_CMD_SPI_WRITE,
 	.wdt_src = PWRAP_WDT_SRC_MASK_ALL,
-	.caps = PWRAP_CAP_RESET | PWRAP_CAP_DCM,
+	.caps = PWRAP_CAP_DCM,
 	.init_reg_clock = pwrap_common_init_reg_clock,
 	.init_soc_specific = NULL,
 };
