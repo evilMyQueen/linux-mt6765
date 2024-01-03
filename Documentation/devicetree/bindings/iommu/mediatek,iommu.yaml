@@ -72,6 +72,7 @@ properties:
       - enum:
           - mediatek,mt2701-m4u  # generation one
           - mediatek,mt2712-m4u  # generation two
+          - mediatek,nt6765-m4u  # generation two
           - mediatek,mt6779-m4u  # generation two
           - mediatek,mt6795-m4u  # generation two
           - mediatek,mt6893-iommu-mm         # generation two
@@ -134,6 +135,7 @@ properties:
       dt-binding/memory/mediatek,mt8189-memory-port.h for mt8189,
       dt-binding/memory/mt2701-larb-port.h for mt2701 and mt7623,
       dt-binding/memory/mt2712-larb-port.h for mt2712,
+      dt-binding/memory/mediatek,mt6765-memory-port.h for mt6765,
       dt-binding/memory/mt6779-larb-port.h for mt6779,
       dt-binding/memory/mt6795-larb-port.h for mt6795,
       dt-binding/memory/mediatek,mt6893-memory-port.h for mt6893,
@@ -182,6 +184,7 @@ allOf:
         compatible:
           enum:
             - mediatek,mt6893-iommu-mm
+            - mediatek,mt6765-m4u
             - mediatek,mt8186-iommu-mm
             - mediatek,mt8188-iommu-vdo
             - mediatek,mt8188-iommu-vpp
