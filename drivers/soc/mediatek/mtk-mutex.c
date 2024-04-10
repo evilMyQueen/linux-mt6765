@@ -397,7 +397,21 @@ static const u8 mt2712_mutex_mod[DDP_COMPONENT_ID_MAX] = {
 	[DDP_COMPONENT_WDMA1] = MT2712_MUTEX_MOD_DISP_WDMA1,
 };
 
+static const unsigned int mt6765_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+	[DDP_COMPONENT_AAL0] = 13,
+	[DDP_COMPONENT_CCORR] = 12,
+	[DDP_COMPONENT_COLOR0] = 11,
+	[DDP_COMPONENT_DITHER0] = 15,
+	[DDP_COMPONENT_GAMMA] = 14,
+	[DDP_COMPONENT_OVL0] = 7,
+	[DDP_COMPONENT_OVL_2L0] = 8,
+	[DDP_COMPONENT_PWM0] = 19,
+	[DDP_COMPONENT_RDMA0] = 9,
+	[DDP_COMPONENT_WDMA0] = 10,
+};
+
 static const u8 mt8167_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>>>>>>> 3d4266f12508 (soc: mediatek: mutex: Add support for MT6765)
 	[DDP_COMPONENT_AAL0] = MT8167_MUTEX_MOD_DISP_AAL,
 	[DDP_COMPONENT_CCORR] = MT8167_MUTEX_MOD_DISP_CCORR,
 	[DDP_COMPONENT_COLOR0] = MT8167_MUTEX_MOD_DISP_COLOR,
@@ -744,6 +758,14 @@ static const struct mtk_mutex_data mt2712_mutex_driver_data = {
 	.mutex_mod_reg = MT2701_MUTEX0_MOD0,
 	.mutex_mod1_reg = MT2701_MUTEX0_MOD1,
 	.mutex_sof_reg = MT2701_MUTEX0_SOF0,
+};
+
+static const struct mtk_mutex_data mt6765_mutex_driver_data = {
+	.mutex_mod = mt6765_mutex_mod,
+	.mutex_sof = mt8183_mutex_sof,
+	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
+	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+	.no_clk = true,
 };
 
 static const struct mtk_mutex_data mt6795_mutex_driver_data = {
@@ -1132,6 +1154,7 @@ static int mtk_mutex_probe(struct platform_device *pdev)
 static const struct of_device_id mutex_driver_dt_match[] = {
 	{ .compatible = "mediatek,mt2701-disp-mutex", .data = &mt2701_mutex_driver_data },
 	{ .compatible = "mediatek,mt2712-disp-mutex", .data = &mt2712_mutex_driver_data },
+	{ .compatible = "mediatek,mt6765-disp-mutex", .data = &mt6765_mutex_driver_data },
 	{ .compatible = "mediatek,mt6795-disp-mutex", .data = &mt6795_mutex_driver_data },
 	{ .compatible = "mediatek,mt8167-disp-mutex", .data = &mt8167_mutex_driver_data },
 	{ .compatible = "mediatek,mt8173-disp-mutex", .data = &mt8173_mutex_driver_data },
