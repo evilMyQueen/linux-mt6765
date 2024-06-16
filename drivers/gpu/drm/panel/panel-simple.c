@@ -5936,6 +5936,37 @@ static const struct panel_desc_dsi osd101t2045_53ts = {
 	.lanes = 4,
 };
 
+static const struct drm_display_mode nokia_roo_mode = {
+	.clock = 74250,
+	.hdisplay = 720,
+	.hsync_start = 720 + 30,
+	.hsync_end = 720 + 30 + 30,
+	.htotal = 720 + 30 + 30 + 30,
+	.vdisplay = 1440,
+	.vsync_start = 1440 + 6,
+	.vsync_end = 1440 + 6 + 2,
+	.vtotal = 1440 + 6 + 2 + 255,
+	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+};
+
+static const struct panel_desc_dsi nokia_roo = {
+	.desc = {
+		.modes = &nokia_roo_mode,
+		.num_modes = 1,
+		.bpc = 8,
+		.size = {
+			.width = 68,
+			.height = 136,
+		},
+		.connector_type = DRM_MODE_CONNECTOR_DSI,
+	},
+	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+		 MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+		 MIPI_DSI_MODE_NO_EOT_PACKET,
+	.format = MIPI_DSI_FMT_RGB888,
+	.lanes = 4,
+};
+
 static const struct of_device_id dsi_of_match[] = {
 	{
 		.compatible = "auo,b080uan01",
@@ -5955,6 +5986,9 @@ static const struct of_device_id dsi_of_match[] = {
 	}, {
 		.compatible = "osddisplays,osd101t2045-53ts",
 		.data = &osd101t2045_53ts
+	}, {
+		.compatible = "nokia,roo",
+		.data = &nokia_roo
 	}, {
 		/* sentinel */
 	}
