@@ -933,6 +933,14 @@
 			reg = <0 0x11c50000 0 0x10000>;
 			#address-cells = <1>;
 			#size-cells = <1>;
+
+			socinfo-data1@4c {
+				reg = <0x04c 0x4>;
+			};
+
+			socinfo-data2@60 {
+				reg = <0x060 0x4>;	
+			};
 		};
 
 		dsi_phy: dsi-phy@11c80000 {

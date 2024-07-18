@@ -43,6 +43,7 @@ struct socinfo_data {
 static const char *cell_names[MAX_CELLS] = {"socinfo-data1", "socinfo-data2"};
 
 static struct socinfo_data socinfo_data_table[] = {
+	MTK_SOCINFO_ENTRY("MT6765", "MT6762V/WB", "Helio P22", 0x00190002, 0x00000002),
 	MTK_SOCINFO_ENTRY("MT8173", "MT8173V/AC", "MT8173", 0x6CA20004, 0x10000000),
 	MTK_SOCINFO_ENTRY("MT8183", "MT8183V/AZA", "Kompanio 500", 0x00010043, 0x00000840),
 	MTK_SOCINFO_ENTRY("MT8183", "MT8183V/AZA", "Kompanio 500", 0x00010043, 0x00000940),
