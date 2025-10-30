@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0
-/*
-* Device Tree Source for Nokia 3.1 Plus (ROO)
-*
-* Copyright (c) 2024 Arseniy Velikanov <me@adomerle.xyz>
-*/
+//
+// Device Tree Source for Xiaomi Redmi 9A // (dandelion)
+//
+// Copyright (c) 2025 Ryo "evilMyQueen" Yamada <evilMyQueen@mainlining.org>
+//
+// nya
 
 /dts-v1/;
 
@@ -18,58 +19,123 @@
 
 / {
 	chassis-type = "handset";
-	compatible = "nokia,roo", "mediatek,mt6762", "mediatek,mt6765";
-	model = "Nokia 3.1 Plus";
+	compatible = "xiaomi,dandelion", "mediatek,mt6762", "mediatek,mt6765";
+	model = "Xiaomi Redmi 9A";
 
 	aliases {
 		mmc0 = &mmc0;
 		mmc1 = &mmc1;
+		serial0 = &uart0;
 	};
 
 	chosen {
+		bootargs = "earlycon=mtk8250,0x11002000 console=ttyS0,921600n1 console=tty0 console=ttyGS0 clk_ignore_unused regulator_ignore_unused pd_ignore_unused PMOS_NOSPLASH";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
 		stdout-path = "serial0:921600n8";
-		bootargs = "maxcpus=4";
-	};
-
-	gpio-keys {
-		compatible = "gpio-keys";
-		pinctrl-names = "default";
-		pinctrl-0 = <&gpio_keys>;
-
-		key-volume-up {
-			gpios = <&pio 93 GPIO_ACTIVE_LOW>;
-			label = "volume_up";
-			linux,code = <KEY_VOLUMEDOWN>;
-			wakeup-source;
-			debounce-interval = <15>;
+		linux,initrd-start = <0x51100000>;
+		linux,initrd-end = <0x517ffd98>;
+		framebuffer0: framebuffer@7ec50000 {
+			compatible = "simple-framebuffer";
+			memory-region = <&framebuffer_reserved>;
+			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
+			width = <736>;
+			height = <1600>;
+			stride = <((720 + 16) * 4)>;
+			format = "a8r8g8b8";
+			status = "okay";
 		};
 	};
 
-	haptics {
-		compatible = "regulator-haptic";
-		haptic-supply = <&mt6357_vibr_reg>;
-		max-microvolt = <2300000>;
-		min-microvolt = <3200000>;
+	memory@40000000 {
+		device_type = "memory";
+		reg = <0 0x40000000 0 0x80000000>;
 	};
 
-	/* The following are required by stock bootloader */
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
+
+		pstore: memory@47c90000 {
+			reg = <0x00 0x47c90000 0x00 0xe0000>;
+			stdout-path = "serial0:921600n8";
+		};
+
+		ram_console: memory@47c80000 {
+			reg = <0x00 0x47c80000 0x00 0x10000>;
+		};
+
+		framebuffer_reserved: framebuffer@7ec50000 {
+			reg = <0x00 0x7ec50000 0x00 0xfb0000>;
+			no-map;
+		};
+
+		minirdump: memory@47d70000 {
+			reg = <0x00 0x47d70000 0x00 0x10000>;
+			no-map;
+		};
+
+		teei_reserved: memory@70000000 {
+			reg = <0x00 0x70000000 0x00 0x2a00000>;
+			no-map;
+		};
+
+		tee_log_reserved: memory@bfc00000 {
+			reg = <0x00 0xbfc00000 0x00 0x20000>;
+			no-map;
+		};
+
+		sspm_reserved: memory@7ff00000 {
+			reg = <0x00 0x7ff00000 0x00 0xc0000>;
+			no-map;
+		};
+
+		tee_secmem: memory@7fc00000 {
+			reg = <0x00 0x7fc00000 0x00 0x200000>;
+			no-map;
+		};
+
+		atf_log_reserved: memory@bfe00000 {
+			reg = <0x00 0xbfe00000 0x00 0x40000>;
+			no-map;
+		};
+
+		atf_ramdump_reserved: memory@bff70000 {
+			reg = <0x00 0xbff70000 0x00 0x80000>;
+			no-map;
+		};
+
+		atf_reserved: memory@47d80000 {
+			reg = <0x00 0x47d80000 0x00 0x50000>;
+			no-map;
+		};
+
+		log_store@7ffc0000 {
+			reg = <0x00 0x7ffc0000 0x00 0x40000>;
+		};
+
+		dramc_rk0: memory@bffff000 {
+			reg = <0x00 0xbffff000 0x00 0x1000>;
+			no-map;
+		};
 	};
 
-	scp@10500000 {
-		compatible = "mediatek,scp";
-	};
+//	vbus_reg: vbus-reg {
+//		compatible = "regulator-fixed";
+//		regulator-name = "usb_vbus";
+//		regulator-min-microvolt = <5000000>;
+//		regulator-max-microvolt = <5000000>;
+//	};
+//
+	mt6357_vusb33_fixed_reg: ldo-vusb33 {
+		compatible = "regulator-fixed";
+		regulator-name = "vusb33-reg";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-enable-ramp-delay = <264>;
 
-	gpio@10005000 {
-		linux,phandle = <0xdead>;
-		phandle = <0xdead>;
-	};
-
-	__symbols__ {
-		gpio = "/gpio@10005000";
 	};
 };
 
@@ -97,48 +163,50 @@
 	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
-// Fail to power up MP1 cluster
-// due to Firmware bug (ALPS10)
 &cpu4 {
-	status = "disabled";
+	clock-frequency = <1500000000>;
+	proc-supply = <&mt6357_vproc_reg>;
+	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
 &cpu5 {
-	status = "disabled";
+	clock-frequency = <1500000000>;
+	proc-supply = <&mt6357_vproc_reg>;
+	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
 &cpu6 {
-	status = "disabled";
+	clock-frequency = <1500000000>;
+	proc-supply = <&mt6357_vproc_reg>;
+	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
 &cpu7 {
-	status = "disabled";
+	clock-frequency = <1500000000>;
+	proc-supply = <&mt6357_vproc_reg>;
+	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
-//&dsi_phy {
-//	status = "okay";
-//};
-//
-//&dsi {
-//	status = "okay";
-//
-//	panel@0 {
-//		compatible = "nokia,roo";
-//		reg = <0>;
-//		backlight = <&mt6370_backlight>;
-//		port {
-//			panel_in: endpoint {
-//				remote-endpoint = <&dsi_out>;
-//			};
-//		};
-//	};
-//
-//	port {
-//		dsi_out: endpoint {
-//			remote-endpoint = <&panel_in>;
-//		};
-//	};
-//};
+&usb2 {
+	status = "okay";
+
+	usb_con: connector {
+		compatible = "usb-b-connector";
+		type = "micro";
+	};
+};
+
+&u2phy {
+	status = "okay";
+	phy-supply = <&mt6357_vusb33_fixed_reg>;
+
+};
+
+&u2port {
+	clocks = <&topckgen CLK_TOP_USB20_48M_EN>;
+};
+
+
 
 &i2c5 {
 	status = "okay";
@@ -151,6 +219,7 @@
 		reg = <0x34>;
 		wakeup-source;
 		interrupts-extended = <&pio 3 IRQ_TYPE_LEVEL_LOW>;
+phy-supply = <&mt6357_vusb33_fixed_reg>;
 		interrupt-controller;
 		#interrupt-cells = <1>;
 
@@ -158,15 +227,15 @@
 			compatible = "mediatek,mt6370-adc";
 			#io-channel-cells = <1>;
 		};
-
-		mt6370_backlight: backlight {
-			compatible = "mediatek,mt6370-backlight";
-
-			max-brightness = <1024>;
-			default-brightness = <1024>;
-
-			mediatek,bled-channel-use = /bits/ 8 <15>;
-		};
+//
+//		mt6370_backlight: backlight {
+//			compatible = "mediatek,mt6370-backlight";
+//
+//			max-brightness = <1024>;
+//			default-brightness = <1024>;
+//
+//			mediatek,bled-channel-use = /bits/ 8 <15>;
+//		};
 
 		mt6370_charger: charger {
 			compatible = "mediatek,mt6370-charger";
@@ -183,48 +252,48 @@
 			};
 		};
 
-		mt6370_indicator: indicator {
-			compatible = "mediatek,mt6370-indicator";
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			status = "disabled";
-		};
-
-		mt6370_flashlight: flashlight {
-			compatible = "mediatek,mt6370-flashlight";
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			led@0 {
-				reg = <0>;
-				led-sources = <0>;
-				function = LED_FUNCTION_FLASH;
-				color = <LED_COLOR_ID_WHITE>;
-				function-enumerator = <1>;
-				led-max-microamp = <200000>;
-				flash-max-microamp = <500000>;
-				flash-max-timeout-us = <1248000>;
-			};
-
-			led@1 {
-				reg = <1>;
-				led-sources = <1>;
-				function = LED_FUNCTION_FLASH;
-				color = <LED_COLOR_ID_WHITE>;
-				function-enumerator = <2>;
-				led-max-microamp = <200000>;
-				flash-max-microamp = <500000>;
-				flash-max-timeout-us = <1248000>;
-			};
-		};
-
-		tcpc {
-			compatible = "mediatek,mt6370-tcpc";
-			interrupts-extended = <&pio 4 IRQ_TYPE_LEVEL_LOW>;
-
-			status = "disabled";
-		};
+//		mt6370_indicator: indicator {
+//			compatible = "mediatek,mt6370-indicator";
+//			#address-cells = <1>;
+//			#size-cells = <0>;
+//
+//			status = "disabled";
+//		};
+//
+//		mt6370_flashlight: flashlight {
+//			compatible = "mediatek,mt6370-flashlight";
+//			#address-cells = <1>;
+//			#size-cells = <0>;
+//
+//			led@0 {
+//				reg = <0>;
+//				led-sources = <0>;
+//				function = LED_FUNCTION_FLASH;
+//				color = <LED_COLOR_ID_WHITE>;
+//				function-enumerator = <1>;
+//				led-max-microamp = <200000>;
+//				flash-max-microamp = <500000>;
+//				flash-max-timeout-us = <1248000>;
+//			};
+//
+//			led@1 {
+//				reg = <1>;
+//				led-sources = <1>;
+//				function = LED_FUNCTION_FLASH;
+//				color = <LED_COLOR_ID_WHITE>;
+//				function-enumerator = <2>;
+//				led-max-microamp = <200000>;
+//				flash-max-microamp = <500000>;
+//				flash-max-timeout-us = <1248000>;
+//			};
+//		};
+//
+//		tcpc {
+//			compatible = "mediatek,mt6370-tcpc";
+//			interrupts-extended = <&pio 4 IRQ_TYPE_LEVEL_LOW>;
+//
+//			status = "disabled";
+//		};
 
 		regulators {
 			mt6370_dsvbst_reg: dsvbst {
@@ -271,26 +340,30 @@
 
 &mmc0 {
 	status = "okay";
-
 	pinctrl-names = "default", "state_uhs";
 	pinctrl-0 = <&mmc0_pins_default>;
 	pinctrl-1 = <&mmc0_pins_uhs>;
-
+	bus-width = <8>;
+	cap-mmc-highspeed;
+	mmc-ddr-1_8v;
+	mmc-hs200-1_8v;
+	mmc-hs400-1_8v;
+	cap-mmc-hw-reset;
+//	no-sdio;no-sd;
+	supports-cqe;
+	cap-mmc-hw-reset;
 	max-frequency = <200000000>;
 	non-removable;
 	vmmc-supply = <&mt6357_vemc_reg>;
 	vqmmc-supply = <&mt6357_vio18_reg>;
-
 	hs400-ds-delay = <0x12814>;
 };
 
 &mmc1 {
 	status = "okay";
-
 	pinctrl-names = "default", "state_uhs";
 	pinctrl-0 = <&mmc1_default_pins>;
 	pinctrl-1 = <&mmc1_default_pins>;
-
 	bus-width = <4>;
 	cap-sd-highspeed;
 	cd-gpios = <&pio 1 0>;
@@ -311,7 +384,6 @@
 };
 
 &pio {
-
 	gpio_keys: gpio-keys-pins {
 		pins {
 			pinmux = <PINMUX_GPIO93__FUNC_KPCOL0>;
@@ -438,30 +510,33 @@
 };
 
 &usb2 {
-	status = "okay";
+  status = "okay";
 
-	dr_mode = "otg";
-	maximum-speed = "high-speed";
-	pinctrl-0 = <&usb_pins>;
-	pinctrl-names = "default";
-	role-switch-default-mode = "peripheral";
-	usb-role-switch;
+  dr_mode = "otg";
+  maximum-speed = "high-speed";
+  pinctrl-0 = <&usb_pins>;
+  pinctrl-names = "default";
+  role-switch-default-mode = "peripheral";
+  usb-role-switch;
 
-	usb_con: connector {
-		compatible = "gpio-usb-b-connector", "usb-b-connector";
-		type = "micro";
-		id-gpios = <&pio 41 GPIO_ACTIVE_HIGH>;
-		vbus-supply = <&mt6370_otg_vbus>;
-	};
+  usb_con: connector {
+    compatible = "gpio-usb-b-connector", "usb-b-connector";
+    type = "micro";
+    id-gpios = <&pio 41 GPIO_ACTIVE_HIGH>;
+    vbus-supply = <&mt6370_otg_vbus>;
+  };
 };
 
 &u2phy {
-	status = "okay";
+  status = "okay";
+
 };
 
 &uart0 {
 	status = "okay";
-
-	pinctrl-0 = <&uart0_pins>;
-	pinctrl-names = "default";
 };
+
+&iommu {
+	status = "disabled";
+};
+

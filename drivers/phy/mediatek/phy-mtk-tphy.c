@@ -24,7 +24,7 @@
 /* version V1 sub-banks offset base address */
 /* banks shared by multiple phys */
 #define SSUSB_SIFSLV_V1_SPLLC		0x000	/* shared by u3 phys */
-#define SSUSB_SIFSLV_V1_U2FREQ		0x100	/* shared by u2 phys */
+#define SSUSB_SIFSLV_V1_U2FREQ		0xf00	/* shared by u2 phys */
 #define SSUSB_SIFSLV_V1_CHIP		0x300	/* shared by u3 phys */
 /* u2 phy bank */
 #define SSUSB_SIFSLV_V1_U2PHY_COM	0x000
@@ -111,6 +111,7 @@
 
 #define U3P_U2PHYDTM1		0x06C
 #define P2C_RG_UART_EN			BIT(16)
+#define P2C_FORCE_ENTER_DEVICE_MODE	BIT(10)
 #define P2C_FORCE_IDDIG		BIT(9)
 #define P2C_RG_VBUSVALID		BIT(5)
 #define P2C_RG_SESSEND			BIT(4)
@@ -884,6 +885,7 @@ static void u2_phy_instance_power_on(struct mtk_tphy *tphy,
 		mtk_phy_set_bits(com + U3P_U2PHYDTM0, P2C_RG_SUSPENDM | P2C_FORCE_SUSPENDM);
 	}
 	dev_dbg(tphy->dev, "%s(%d)\n", __func__, index);
+	mtk_phy_set_bits(com + U3P_U2PHYDTM1, P2C_FORCE_ENTER_DEVICE_MODE);
 }
 
 static void u2_phy_instance_power_off(struct mtk_tphy *tphy,

@@ -252,11 +252,11 @@
 		clock-output-names = "clk32k";
 	};
 
-	memory@40000000 {
-		/* We expect bootloader will fill this reg */
-		device_type = "memory";
-		reg = <0 0x40000000 0 0>;
-	};
+//	memory@40000000 {
+//		/* We expect bootloader will fill this reg */
+//		device_type = "memory";
+//		reg = <0 0x40000000 0 0>;
+//	};
 
 	timer {
 		compatible = "arm,armv8-timer";
