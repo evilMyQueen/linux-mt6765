@@ -467,13 +467,10 @@
 			compatible = "mediatek,mt6765-pwrap";
 			reg = <0 0x1000d000 0 0x1000>;
 			reg-names = "pwrap";
-
 			interrupts = <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>;
-
 			clocks = <&topckgen CLK_TOP_CLK26M>,
 				 <&infracfg CLK_IFR_PMIC_AP>;
 			clock-names = "spi", "wrap";
-
 			status = "disabled";
 		};
 
@@ -484,7 +481,6 @@
 			interrupts = <GIC_SPI 180 IRQ_TYPE_EDGE_FALLING>;
 			clocks = <&clk26m>;
 			clock-names = "kpd";
-
 			status = "disabled";
 		};
 
@@ -507,12 +503,9 @@
 		iommu: m4u@10205000 {
 			compatible = "mediatek,mt6765-m4u";
 			reg = <0 0x10205000 0 0x1000>;
-
 			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_LOW>;
-
 			mediatek,larbs = <&smi_larb0>, <&smi_larb1>,
 					 <&smi_larb2>, <&smi_larb3>;
-
 			#iommu-cells = <1>;
 		};
 
@@ -520,12 +513,9 @@
 		gce: mailbox@10238000 {
 			compatible = "mediatek,mt6765-gce";
 			reg = <0 0x10238000 0 0x4000>;
-
 			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>,
 				     <GIC_SPI 155 IRQ_TYPE_LEVEL_LOW>;
-
 			#mbox-cells = <2>;
-
 			clocks = <&infracfg CLK_IFR_GCE>;
 			clock-names = "gce";
 		};
@@ -550,14 +540,10 @@
 		auxadc: auxadc@11001000 {
 			compatible = "mediatek,mt6765-auxadc";
 			reg = <0 0x11001000 0 0x1000>;
-
 			interrupts = <GIC_SPI 76 IRQ_TYPE_EDGE_FALLING>;
-
 			clocks = <&infracfg CLK_IFR_AUXADC>;
 			clock-names = "main";
-
 			status = "disabled";
-
 			#io-channel-cells = <1>;
 		};
 
@@ -565,16 +551,12 @@
 			compatible = "mediatek,mt6765-uart",
 				     "mediatek,mt6577-uart";
 			reg = <0 0x11002000 0 0x400>;
-
 			interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_UART0>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "baud", "bus";
-
 			dmas = <&apdma 0>, <&apdma 1>;
 			dma-names = "tx", "rx";
-
 			status = "disabled";
 		};
 
@@ -582,16 +564,12 @@
 			compatible = "mediatek,mt6765-uart",
 				     "mediatek,mt6577-uart";
 			reg = <0 0x11003000 0 0x400>;
-
 			interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_UART1>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "baud", "bus";
-
 			dmas = <&apdma 2>, <&apdma 3>;
 			dma-names = "tx", "rx";
-
 			status = "disabled";
 		};
 
@@ -599,9 +577,7 @@
 			compatible = "mediatek,mt6765-pwm",
 				     "mediatek,mt7622-pwm";
 			reg = <0 0x11006000 0 0x1000>;
-
 			status = "disabled";
-
 			#pwm-cells = <2>;
 			clocks = <&infracfg CLK_IFR_PWM>,
 				 <&infracfg CLK_IFR_PWM_HCLK>,
@@ -620,17 +596,13 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x11007000 0 0x1000>,
 			      <0 0x11000080 0 0x0080>;
-
 			interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -639,17 +611,13 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x11008000 0 0x1000>,
 				  <0 0x11000100 0 0x0080>;
-
 			interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -658,35 +626,26 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x11009000 0 0x1000>,
 				  <0 0x11000180 0 0x0180>;
-
 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		spi0: spi@1100a000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x1100a000 0 0x1000>;
-
 			interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI0>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -695,32 +654,24 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x1100f000 0 0x1000>,
 			      <0 0x11000300 0 0x0100>;
-
 			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		spi1: spi@11010000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x11010000 0 0x1000>;
-
 			interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI1>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
 
@@ -732,68 +683,50 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x11011000 0 0x1000>,
 			      <0 0x11000400 0 0x0180>;
-
 			interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		spi2: spi@11012000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x11012000 0 0x1000>;
-
 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI2>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		spi3: spi@11013000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x11013000 0 0x1000>;
-
 			interrupts = <GIC_SPI 129 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI3>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		spi4: spi@11014000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x11014000 0 0x1000>;
-
 			interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI4>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
 
@@ -802,19 +735,14 @@
 
 		spi5: spi@11015000 {
 			compatible = "mediatek,mt6765-spi";
-
 			reg = <0 0x11015000 0 0x1000>;
-
 			interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&topckgen CLK_TOP_SYSPLL3_D2>,
 				 <&topckgen CLK_TOP_SPI_SEL>,
 				 <&infracfg CLK_IFR_SPI5>;
 			clock-names = "parent-clk", "sel-clk", "spi-clk";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -823,34 +751,25 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x1100d000 0 0x1000>,
 			      <0 0x11000600 0 0x0080>;
-
 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
 		pwm1: pwm@1100e000 {
 			compatible = "mediatek,mt6765-disp-pwm";
 			reg = <0 0x1100e000 0 0x1000>;
-
 			interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_DISP_PWM>,
 				 <&topckgen CLK_TOP_DISP_PWM_SEL>;
 			clock-names = "main", "mm";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			#pwm-cells = <2>;
-
 			status = "disabled";
 		};
 
@@ -860,17 +779,13 @@
 				     "mediatek,mt8183-i2c";
 			reg = <0 0x11016000 0 0x1000>,
 			      <0 0x11000580 0 0x0080>;
-
 			interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_IFR_I2C_AP>,
 				 <&infracfg CLK_IFR_AP_DMA>;
 			clock-names = "main", "dma";
 			clock-div = <5>;
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -878,17 +793,13 @@
 			compatible = "mediatek,mt6765-musb",
 				     "mediatek,mtk-musb";
 			reg = <0 0x11200000 0 0x1000>;
-
 			status = "disabled";
-
 			interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_LOW>;
 			interrupt-names = "mc";
-
 			clocks = <&infracfg CLK_IFR_ICUSB>,
 				 <&topckgen CLK_TOP_USB_TOP_SEL>,
 				 <&topckgen CLK_TOP_UNIVPLL3_D4>;
 			clock-names = "main", "mcu", "univpll";
-
 			phys = <&u2port PHY_TYPE_USB2>;
 		};
 
@@ -902,14 +813,11 @@
 			compatible = "mediatek,mt6765-mmc",
 				     "mediatek,mt8183-mmc";
 			reg = <0 0x11230000 0 0x1000>;
-
 			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_TOP_MSDC50_0>,
 				 <&infracfg CLK_IFR_MSDC0>,
 				 <&infracfg CLK_IFR_MSDC0_SRC>;
 			clock-names = "source", "hclk", "source_cg";
-
 			status = "disabled";
 		};
 
@@ -917,14 +825,11 @@
 			compatible = "mediatek,mt6765-mmc",
 				     "mediatek,mt8183-mmc";
 			reg = <0 0x11240000 0 0x1000>;
-
 			interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&infracfg CLK_TOP_MSDC30_1>,
 				 <&infracfg CLK_IFR_MSDC1>,
 				 <&infracfg CLK_IFR_MSDC1_SRC>;
 			clock-names = "source", "hclk", "source_cg";
-
 			status = "disabled";
 		};
 
@@ -939,7 +844,7 @@
 			};
 
 			socinfo-data2@60 {
-				reg = <0x060 0x4>;	
+				reg = <0x060 0x4>;
 			};
 		};
 
@@ -947,16 +852,11 @@
 			compatible = "mediatek,mt6765-mipi-tx",
 				     "mediatek,mt8183-mipi-tx";
 			reg = <0 0x11c80000 0 0x1000>;
-
 			clocks = <&apmixed CLK_APMIXED_MIPID0_26M>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			#clock-cells = <0>;
 			clock-output-names = "dsi_mppll";
-
 			#phy-cells = <0>;
-
 			status = "disabled";
 		};
 
@@ -964,10 +864,8 @@
 			compatible = "mediatek,mt6765-tphy",
 				     "mediatek,generic-tphy-v1";
 			reg = <0 0x11cc0000 0 0x800>;
-
 			#address-cells = <2>;
 			#size-cells = <2>;
-
 			ranges;
 
 			u2port: usb-phy@11cc0800 {
@@ -985,7 +883,6 @@
 			interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_LOW>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-
 			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
 				 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
@@ -994,15 +891,11 @@
 		disp_mutex: mutex@14001000 {
 			compatible = "mediatek,mt6765-disp-mutex";
 			reg = <0 0x14001000 0 0x1000>;
-
 			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&clk32k>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MUTEX0_STREAM_EOF>,
 					      <CMDQ_EVENT_MUTEX1_STREAM_EOF>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
 		};
 
@@ -1014,7 +907,6 @@
 				 <&mmsys CLK_MM_SMI_COMM0>,
 				 <&mmsys CLK_MM_SMI_COMM1>;
 			clock-names = "apb", "smi", "gals0", "gals1";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
 		};
 
@@ -1022,13 +914,10 @@
 			compatible = "mediatek,mt6765-smi-larb",
 						 "mediatek,mt8192-smi-larb";
 			reg = <0 0x14003000 0 0x1000>;
-
 			clocks = <&mmsys CLK_MM_SMI_LARB0>,
 				 <&mmsys CLK_MM_SMI_LARB0>;
 			clock-names = "apb", "smi";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,smi = <&smi_common>;
 			mediatek,larb-id = <0>;
 		};
@@ -1037,15 +926,10 @@
 			compatible = "mediatek,mt6765-disp-ovl",
 				     "mediatek,mt8192-disp-ovl";
 			reg = <0 0x1400b000 0 0x1000>;
-
 			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_OVL0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			iommus = <&iommu M4U_PORT_DISP_OVL0>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
 		};
 
@@ -1053,15 +937,10 @@
 			compatible = "mediatek,mt6765-disp-ovl-2l",
 				     "mediatek,mt8192-disp-ovl-2l";
 			reg = <0 0x1400c000 0 0x1000>;
-
 			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			iommus = <&iommu M4U_PORT_DISP_OVL0_2L>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
 		};
 
@@ -1069,15 +948,10 @@
 			compatible = "mediatek,mt6765-disp-rdma",
 				     "mediatek,mt8183-disp-rdma";
 			reg = <0 0x1400d000 0 0x1000>;
-
 			interrupts = <GIC_SPI 218 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_MDP_RDMA0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
 		};
 
@@ -1085,15 +959,10 @@
 			compatible = "mediatek,mt6765-disp-wdma",
 				     "mediatek,mt8173-disp-wdma";
 			reg = <0 0x1400e000 0 0x1000>;
-
 			interrupts = <GIC_SPI 219 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_WDMA0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			iommus = <&iommu M4U_PORT_DISP_WDMA0>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
 		};
 
@@ -1101,13 +970,9 @@
 			compatible = "mediatek,mt6765-disp-color",
 				     "mediatek,mt8173-disp-color";
 			reg = <0 0x1400f000 0 0x1000>;
-
 			interrupts = <GIC_SPI 220 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
 		};
 
@@ -1115,13 +980,9 @@
 			compatible = "mediatek,mt6765-disp-ccorr",
 				     "mediatek,mt8183-disp-ccorr";
 			reg = <0 0x14010000 0 0x1000>;
-
 			interrupts = <GIC_SPI 221 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
 		};
 
@@ -1129,13 +990,9 @@
 			compatible = "mediatek,mt6765-disp-aal",
 				     "mediatek,mt8183-disp-aal";
 			reg = <0 0x14011000 0 0x1000>;
-
 			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_AAL0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
 		};
 
@@ -1143,13 +1000,9 @@
 			compatible = "mediatek,mt6765-disp-gamma",
 				     "mediatek,mt8183-disp-gamma";
 			reg = <0 0x14012000 0 0x1000>;
-
 			interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
 		};
 
@@ -1157,13 +1010,9 @@
 			compatible = "mediatek,mt6765-disp-dither",
 				     "mediatek,mt8183-disp-dither";
 			reg = <0 0x14013000 0 0x1000>;
-
 			interrupts = <GIC_SPI 224 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x3000 0x1000>;
 		};
 
@@ -1171,24 +1020,17 @@
 			compatible = "mediatek,mt6765-dsi",
 				     "mediatek,mt8183-dsi";
 			reg = <0 0x14014000 0 0x1000>;
-
 			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_LOW>;
-
 			clocks = <&mmsys CLK_MM_DSI0>,
 				 <&mmsys CLK_MM_DIG_DSI>,
 				 <&dsi_phy>;
 			clock-names = "engine", "digital", "hs";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
-
 			phys = <&dsi_phy>;
 			phy-names = "dphy";
-
 			#address-cells = <1>;
 			#size-cells = <0>;
-
 			resets = <&mmsys MT6765_MMSYS_DSI_RST>;
-
 			status = "disabled";
 		};
 
@@ -1202,13 +1044,10 @@
 			compatible = "mediatek,mt6765-smi-larb",
 				     "mediatek,mt8192-smi-larb";
 			reg = <0 0x15021000 0 0x1000>;
-
 			clocks = <&mmsys CLK_MM_SMI_IMG>,
 				 <&imgsys CLK_IMG_LARB2>;
 			clock-names = "apb", "smi", "gals";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_ISP>;
-
 			mediatek,smi = <&smi_common>;
 			mediatek,larb-id = <2>;
 		};
@@ -1223,13 +1062,10 @@
 			compatible = "mediatek,mt6765-smi-larb",
 				     "mediatek,mt8192-smi-larb";
 			reg = <0 0x17010000 0 0x1000>;
-
 			clocks = <&vcodecsys CLK_VENC_SET0_LARB>,
 				 <&vcodecsys CLK_VENC_SET1_VENC>;
 			clock-names = "apb", "smi";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_VCODEC>;
-
 			mediatek,smi = <&smi_common>;
 			mediatek,larb-id = <1>;
 		};
@@ -1244,13 +1080,10 @@
 			compatible = "mediatek,mt6765-smi-larb",
 				     "mediatek,mt8192-smi-larb";
 			reg = <0 0x1a002000 0 0x1000>;
-
 			clocks = <&mmsys CLK_MM_SMI_CAM>,
 				 <&camsys CLK_CAM_LARB3>;
 			clock-names = "apb", "smi";
-
 			power-domains = <&spm MT6765_POWER_DOMAIN_CAM>;
-
 			mediatek,smi = <&smi_common>;
 			mediatek,larb-id = <3>;
 		};

@@ -34,9 +34,7 @@
 		#size-cells = <2>;
 		ranges;
 		stdout-path = "serial0:921600n8";
-		linux,initrd-start = <0x51100000>;
-		linux,initrd-end = <0x517ffd98>;
-		framebuffer0: framebuffer@7ec50000 {
+	/*	framebuffer0: framebuffer@7ec50000 {
 			compatible = "simple-framebuffer";
 			memory-region = <&framebuffer_reserved>;
 			power-domains = <&spm MT6765_POWER_DOMAIN_DISP>;
@@ -45,6 +43,18 @@
 			stride = <((720 + 16) * 4)>;
 			format = "a8r8g8b8";
 			status = "okay";
+		}; */
+	};
+
+	gpio_keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_keys>;
+
+		key-volume-up {
+			gpios = <&pio 93 GPIO_ACTIVE_LOW>;
+			label = "volume_up";
+			linux,code = <KEY_VOLUMEDOWN>;
 		};
 	};
 
@@ -187,7 +197,7 @@
 	sram-supply = <&mt6357_vsram_proc_reg>;
 };
 
-&usb2 {
+/* &usb2 {
 	status = "okay";
 
 	usb_con: connector {
@@ -204,8 +214,32 @@
 
 &u2port {
 	clocks = <&topckgen CLK_TOP_USB20_48M_EN>;
+}; */
+
+&dsi_phy {
+	status = "okay";
 };
 
+&dsi {
+	status = "okay";
+
+	panel@0 {
+		compatible = "nokia,roo";
+		reg = <0>;
+		backlight = <&mt6370_backlight>;
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&dsi_out>;
+			};
+		};
+	};
+
+	port {
+		dsi_out: endpoint {
+			remote-endpoint = <&panel_in>;
+		};
+	};
+};
 
 
 &i2c5 {
@@ -219,7 +253,6 @@
 		reg = <0x34>;
 		wakeup-source;
 		interrupts-extended = <&pio 3 IRQ_TYPE_LEVEL_LOW>;
-phy-supply = <&mt6357_vusb33_fixed_reg>;
 		interrupt-controller;
 		#interrupt-cells = <1>;
 
@@ -227,15 +260,13 @@ phy-supply = <&mt6357_vusb33_fixed_reg>;
 			compatible = "mediatek,mt6370-adc";
 			#io-channel-cells = <1>;
 		};
-//
-//		mt6370_backlight: backlight {
-//			compatible = "mediatek,mt6370-backlight";
-//
-//			max-brightness = <1024>;
-//			default-brightness = <1024>;
-//
-//			mediatek,bled-channel-use = /bits/ 8 <15>;
-//		};
+
+		mt6370_backlight: backlight {
+			compatible = "mediatek,mt6370-backlight";
+			max-brightness = <1024>;
+			default-brightness = <1024>;
+			mediatek,bled-channel-use = /bits/ 8 <15>;
+		};
 
 		mt6370_charger: charger {
 			compatible = "mediatek,mt6370-charger";
@@ -260,40 +291,33 @@ phy-supply = <&mt6357_vusb33_fixed_reg>;
 //			status = "disabled";
 //		};
 //
-//		mt6370_flashlight: flashlight {
-//			compatible = "mediatek,mt6370-flashlight";
-//			#address-cells = <1>;
-//			#size-cells = <0>;
-//
-//			led@0 {
-//				reg = <0>;
-//				led-sources = <0>;
-//				function = LED_FUNCTION_FLASH;
-//				color = <LED_COLOR_ID_WHITE>;
-//				function-enumerator = <1>;
-//				led-max-microamp = <200000>;
-//				flash-max-microamp = <500000>;
-//				flash-max-timeout-us = <1248000>;
-//			};
-//
-//			led@1 {
-//				reg = <1>;
-//				led-sources = <1>;
-//				function = LED_FUNCTION_FLASH;
-//				color = <LED_COLOR_ID_WHITE>;
-//				function-enumerator = <2>;
-//				led-max-microamp = <200000>;
-//				flash-max-microamp = <500000>;
-//				flash-max-timeout-us = <1248000>;
-//			};
-//		};
-//
-//		tcpc {
-//			compatible = "mediatek,mt6370-tcpc";
-//			interrupts-extended = <&pio 4 IRQ_TYPE_LEVEL_LOW>;
-//
-//			status = "disabled";
-//		};
+		mt6370_flashlight: flashlight {
+			compatible = "mediatek,mt6370-flashlight";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			led@0 {
+				reg = <0>;
+				led-sources = <0>;
+				function = LED_FUNCTION_FLASH;
+				color = <LED_COLOR_ID_WHITE>;
+				function-enumerator = <1>;
+				led-max-microamp = <200000>;
+				flash-max-microamp = <500000>;
+				flash-max-timeout-us = <1248000>;
+			};
+
+			led@1 {
+				reg = <1>;
+				led-sources = <1>;
+				function = LED_FUNCTION_FLASH;
+				color = <LED_COLOR_ID_WHITE>;
+				function-enumerator = <2>;
+				led-max-microamp = <200000>;
+				flash-max-microamp = <500000>;
+				flash-max-timeout-us = <1248000>;
+			};
+		};
 
 		regulators {
 			mt6370_dsvbst_reg: dsvbst {
@@ -336,27 +360,6 @@ phy-supply = <&mt6357_vusb33_fixed_reg>;
 
 &mt6357_vdram_reg {
 	regulator-always-on;
-};
-
-&mmc0 {
-	status = "okay";
-	pinctrl-names = "default", "state_uhs";
-	pinctrl-0 = <&mmc0_pins_default>;
-	pinctrl-1 = <&mmc0_pins_uhs>;
-	bus-width = <8>;
-	cap-mmc-highspeed;
-	mmc-ddr-1_8v;
-	mmc-hs200-1_8v;
-	mmc-hs400-1_8v;
-	cap-mmc-hw-reset;
-//	no-sdio;no-sd;
-	supports-cqe;
-	cap-mmc-hw-reset;
-	max-frequency = <200000000>;
-	non-removable;
-	vmmc-supply = <&mt6357_vemc_reg>;
-	vqmmc-supply = <&mt6357_vio18_reg>;
-	hs400-ds-delay = <0x12814>;
 };
 
 &mmc1 {
@@ -509,6 +512,52 @@ phy-supply = <&mt6357_vusb33_fixed_reg>;
 	};
 };
 
+/* &spi3 {
+	status = "okay";
+
+	touch@0 {
+		compatible = "chipone-tddi";
+		// "focaltech,fts", "novatek,NVT-ts-spi", "mediatek,himax_touch", "mediatek,ilitek_touch",
+		// "omnivision,tcm-spi";
+		reg = <0>;
+		spi-max-frequency = <9600000>;
+	//	pinctrl-name = "state_spi_all";
+		#netlink-event = <30>;
+		status = "okay";
+		chipone,rst-gpio = <&pio 174 0x00>;
+		chipone,irq-gpio = <&pio 0 0x00>;
+		chipone,compensate-cap-max = <110>;
+		chipone,compensate-cap-min = <5>;
+		chipone,noise-max = <50>;
+		chipone,open-min = <200>;
+		chipone,short-min = <200>;
+		chipone,rawdata-max-tianma = <2600>;
+		chipone,rawdata-min-tianma = <1400>;
+		chipone,rawdata-max-truly = <2600>;
+		chipone,rawdata-min-truly = <1400>;
+		chipone,test-compensate-cap;
+		chipone,test-int-pin;
+		chipone,test-noise;
+		chipone,test-noise-frames = <16>;
+		chipone,test-open;
+		chipone,test-rawdata;
+		chipone,test-rawdata-frames = <1>;
+		chipone,test-reset-pin;
+		chipone,test-short;
+		chipone,x-res = <720>;
+		chipone,y-res = <1600>;
+		chipone,touch-charger-detect-enable;
+		chipone,touch-charger-detect-type = "notify";
+		chipone,touch-charger-detect-psp = "POWER_SUPPLY_PROP_ONLINE";
+		chipone,touch-charger-detect-psy-name = "usb";
+		chipone,touch-charger-detect-psp-poll-interval = <1000>;
+		chipone,touch-earjack-detect-enable;
+		chipone,touch-earjack-state-filepath = "/sys/bus/platform/drivers/Accdet_Driver/state";
+		chipone,touch-earjack-poll-interval = <1000>;
+	};
+};
+*/
+
 &usb2 {
   status = "okay";
 
@@ -535,8 +584,3 @@ phy-supply = <&mt6357_vusb33_fixed_reg>;
 &uart0 {
 	status = "okay";
 };
-
-&iommu {
-	status = "disabled";
-};
-
