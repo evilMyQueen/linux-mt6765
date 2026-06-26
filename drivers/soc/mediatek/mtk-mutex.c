@@ -411,7 +411,6 @@ static const unsigned int mt6765_mutex_mod[DDP_COMPONENT_ID_MAX] = {
 };
 
 static const u8 mt8167_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->>>>>>> 3d4266f12508 (soc: mediatek: mutex: Add support for MT6765)
 	[DDP_COMPONENT_AAL0] = MT8167_MUTEX_MOD_DISP_AAL,
 	[DDP_COMPONENT_CCORR] = MT8167_MUTEX_MOD_DISP_CCORR,
 	[DDP_COMPONENT_COLOR0] = MT8167_MUTEX_MOD_DISP_COLOR,
